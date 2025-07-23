@@ -116,7 +116,7 @@ func TestNFTHandler_GetTraitRarities(t *testing.T) {
 			StatusCode: http.StatusOK,
 		}
 
-		mockService.EXPECT().GetTraitRarity(gomock.Any(), reqBody).Return(mockResponse, http.NoBody)
+		mockService.EXPECT().GetTraitRarity(gomock.Any(), reqBody).Return(mockResponse, nil)
 
 		e := echo.New()
 		bodyBytes, _ := json.Marshal(reqBody)

@@ -28,6 +28,18 @@ func NewNFTHandler(nftService service.NFTService) *NFTHandler {
 	}
 }
 
+// GetOwnership godoc
+// @Summary Get NFT ownership information
+// @Description Retrieves ownership details for a specific NFT by its ID
+// @Tags NFT
+// @Accept json
+// @Produce json
+// @Param id path string true "NFT ID" Example(0x06012c8cf97bead5deae237070f9587f8e7a266d:123456)
+// @Success 200 {object} dto.GeneralResponse{data=model.OwnershipDTO} "Successfully retrieved ownership data"
+// @Failure 400 {object} dto.GeneralResponse "Invalid request parameters"
+// @Failure 404 {object} dto.GeneralResponse "NFT ownership not found"
+// @Failure 500 {object} dto.GeneralResponse "Internal server error"
+// @Router /ownerships/{id} [get]
 func (h *NFTHandler) GetOwnership(ctx echo.Context) error {
 	id := getFromParam(ctx, idParam)
 
@@ -54,6 +66,18 @@ func (h *NFTHandler) GetOwnership(ctx echo.Context) error {
 	return ctx.JSON(http.StatusOK, resp)
 }
 
+// GetTraitRarities godoc
+// @Summary Get trait rarities for NFTs
+// @Description returns rarity scores for specified traits in an NFT collection
+// @Tags NFT
+// @Accept json
+// @Produce json
+// @Param request body model.TraitRarityRequestDTO true "Trait rarity request parameters"
+// @Success 200 {object} dto.GeneralResponse{data=model.TraitRarityResponseDTO} "Successfully calculated trait rarities"
+// @Failure 400 {object} dto.GeneralResponse "Invalid request body or parameters"
+// @Failure 404 {object} dto.GeneralResponse "Collection or traits not found"
+// @Failure 500 {object} dto.GeneralResponse "Internal server error"
+// @Router /trait-rarities [post]
 func (h *NFTHandler) GetTraitRarities(ctx echo.Context) error {
 	var req model.TraitRarityRequestDTO
 

@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
 const (
@@ -25,6 +26,8 @@ func (r *Router) RegisterRoutes() {
 	r.echo.Use(middleware.Logger())
 
 	apiVersionV1 := r.echo.Group(apiVersionV1)
+
+	r.echo.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	apiVersionV1.GET("/ownerships/:id", r.nftHandler.GetOwnership)
 	apiVersionV1.GET("/trait-rarities", r.nftHandler.GetTraitRarities)

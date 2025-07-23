@@ -1,0 +1,185 @@
+basePath: /v1
+definitions:
+  dto.GeneralResponse:
+    properties:
+      data: {}
+      status:
+        $ref: '#/definitions/dto.Status'
+    type: object
+  dto.Status:
+    properties:
+      error:
+        type: string
+      message:
+        type: string
+      status:
+        type: string
+      status_code:
+        type: integer
+      timestamp:
+        type: string
+    type: object
+  model.CreatorDTO:
+    properties:
+      account:
+        type: string
+      value:
+        type: integer
+    type: object
+  model.ExtendedTraitProperty:
+    properties:
+      key:
+        type: string
+      rarity:
+        type: string
+      value:
+        type: string
+    type: object
+  model.OwnershipDTO:
+    properties:
+      blockchain:
+        type: string
+      code:
+        type: string
+      collection:
+        type: string
+      contract:
+        type: string
+      createdAt:
+        type: string
+      creators:
+        items:
+          $ref: '#/definitions/model.CreatorDTO'
+        type: array
+      id:
+        type: string
+      itemId:
+        type: string
+      lastUpdatedAt:
+        type: string
+      lazyValue:
+        type: string
+      message:
+        type: string
+      owner:
+        type: string
+      tokenId:
+        type: string
+      value:
+        type: string
+    type: object
+  model.TraitPropertyInput:
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    type: object
+  model.TraitRarityRequestDTO:
+    properties:
+      collectionId:
+        type: string
+      properties:
+        items:
+          $ref: '#/definitions/model.TraitPropertyInput'
+        type: array
+    type: object
+  model.TraitRarityResponseDTO:
+    properties:
+      code:
+        type: string
+      continuation:
+        type: string
+      message:
+        type: string
+      traits:
+        items:
+          $ref: '#/definitions/model.ExtendedTraitProperty'
+        type: array
+    type: object
+host: '{base_url}'
+info:
+  contact: {}
+  description: swagger doucmentation.
+  title: rarible client api
+  version: "1.0"
+paths:
+  /ownerships/{id}:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves ownership details for a specific NFT by its ID
+      parameters:
+      - description: NFT ID
+        example: 0x06012c8cf97bead5deae237070f9587f8e7a266d:123456
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully retrieved ownership data
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.GeneralResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.OwnershipDTO'
+              type: object
+        "400":
+          description: Invalid request parameters
+          schema:
+            $ref: '#/definitions/dto.GeneralResponse'
+        "404":
+          description: NFT ownership not found
+          schema:
+            $ref: '#/definitions/dto.GeneralResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dto.GeneralResponse'
+      summary: Get NFT ownership information
+      tags:
+      - NFT
+  /trait-rarities:
+    post:
+      consumes:
+      - application/json
+      description: returns rarity scores for specified traits in an NFT collection
+      parameters:
+      - description: Trait rarity request parameters
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/model.TraitRarityRequestDTO'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successfully calculated trait rarities
+          schema:
+            allOf:
+            - $ref: '#/definitions/dto.GeneralResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/model.TraitRarityResponseDTO'
+              type: object
+        "400":
+          description: Invalid request body or parameters
+          schema:
+            $ref: '#/definitions/dto.GeneralResponse'
+        "404":
+          description: Collection or traits not found
+          schema:
+            $ref: '#/definitions/dto.GeneralResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/dto.GeneralResponse'
+      summary: Get trait rarities for NFTs
+      tags:
+      - NFT
+swagger: "2.0"

@@ -41,3 +41,15 @@ make test
 ```
 
 Automated tests are also run automatically on every push via GitHub Actions workflows.
+
+## API Documentation
+
+After starting the application, the Swagger UI documentation will be available at:
+```bash
+http://localhost:8080/swagger/index.html#/
+```
+
+The documentation includes:
+- Detailed endpoint descriptions
+- Request/response data models
+- Model schemas

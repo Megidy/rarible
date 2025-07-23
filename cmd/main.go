@@ -5,10 +5,18 @@ import (
 	"os/signal"
 	"syscall"
 
+	_ "github.com/Megidy/rarible/docs"
+
 	"github.com/Megidy/rarible/cmd/app"
 	"github.com/rs/zerolog/log"
 )
 
+// @title rarible client api
+// @version 1.0
+// @description swagger doucmentation.
+
+// @host {base_url}
+// @BasePath /v1
 func main() {
 	app, err := app.NewApp()
 	if err != nil {

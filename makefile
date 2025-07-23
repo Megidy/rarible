@@ -7,5 +7,3 @@ test:
 gen-mock:
 	@mockgen -source=internal/client/interface.go -destination=internal/client/mock/mock_raribleclient.go -package=client
 	@mockgen -source=internal/service/interface.go -destination=internal/service/mock/mock_nft_service.go -package=service
-run:
-	@go run cmd/main.go

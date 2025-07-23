@@ -70,6 +70,11 @@ func (a *app) Run() <-chan error {
 		}
 	}()
 
+	go func() {
+		wg.Wait()
+		close(errsCh)
+	}()
+
 	return errsCh
 
 }

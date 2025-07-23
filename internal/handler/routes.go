@@ -1,6 +1,9 @@
 package handler
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+)
 
 const (
 	apiVersionV1 = "/v1"
@@ -19,6 +22,8 @@ func NewRouter(echo *echo.Echo, nftHandler *NFTHandler) *Router {
 }
 
 func (r *Router) RegisterRoutes() {
+	r.echo.Use(middleware.Logger())
+
 	apiVersionV1 := r.echo.Group(apiVersionV1)
 
 	apiVersionV1.GET("/ownerships/:id", r.nftHandler.GetOwnership)

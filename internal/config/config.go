@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/caarlos0/env"
-	"github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -17,7 +16,6 @@ type Config struct {
 
 func NewConfig() (*Config, error) {
 	var cfg Config
-	godotenv.Load()
 	err := env.Parse(&cfg)
 	if err != nil {
 		return nil, fmt.Errorf("failed to parse config: %w", err)
